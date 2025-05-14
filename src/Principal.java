@@ -13,40 +13,62 @@ public class Principal {
     public static void main(String[] args) {
 
         boolean salir = false;
+        String monedaReferencia, monedaConversion;
+        Monedas valorActual;
 
-        while(salir) {
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                .setPrettyPrinting()
+                .create();
+
+        while(!salir) {
             switch(Conversor.exhibirMenu()){
 
+                case 0:
+                    salir = true;
+                    break;
+                case 1://USD a ARS
+                    monedaReferencia = "USD";
+                    monedaConversion = "ARS";
+                    break;
+                case 2://ARS a USD
+                    monedaReferencia = "ARS";
+                    monedaConversion = "USD";
+                    break;
+                case 3://USD a BRL
+                    monedaReferencia = "USD";
+                    monedaConversion = "BRL";
+                    break;
+                case 4://BRL a USD
+                    monedaReferencia = "BRL";
+                    monedaConversion = "USD";
+                    break;
+                case 5:// USD a COP
+                    monedaReferencia = "USD";
+                    monedaConversion = "COP";
+                    break;
+                case 6://COP a USD
+                    monedaReferencia = "COP";
+                    monedaConversion = "USD";
+                    break;
+                case 7://USD a BOB
+                    monedaReferencia = "USD";
+                    monedaConversion = "BOB";
+                    break;
+                case 8://BOB a USD
+                    monedaReferencia = "BOB";
+                    monedaConversion = "USD";
+                    break;
 
+            }
+            if(!salir){
 
             }
 
 
-            Gson gson = new GsonBuilder()
-                    .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                    .setPrettyPrinting()
-                    .create();
-            String moneda = "";
-            String direccion = "https://v6.exchangerate-api.com/v6/45e0bffdd499c250b1c92642/latest/ARS" + moneda;
-
-            try {
-
-                HttpClient client = HttpClient.newHttpClient();
-                HttpRequest request = HttpRequest.newBuilder().uri(URI.create(direccion)).build();
-                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-                String jsonEntero = response.body();
-                Map<String, String> stringMapCompleto = gson.fromJson(jsonEntero, Map.class);
-                String jsonMonedas = String.valueOf(stringMapCompleto.values().toArray()[stringMapCompleto.size() - 1]);
-                Monedas valoresActuales = gson.fromJson(jsonMonedas, Monedas.class);
-                System.out.println(valoresActuales);
 
 
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error en la URI, verifique la dirección.");
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+
         }
     }
 

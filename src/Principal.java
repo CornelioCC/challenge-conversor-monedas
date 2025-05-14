@@ -12,17 +12,15 @@ import java.util.Scanner;
 public class Principal {
     public static void main(String[] args) {
 
-        int seleccion = 0;
-        Scanner scan = new Scanner(System.in);
+        boolean salir = false;
 
-        while(seleccion != 9) {
-            Conversor.exhibirMenu();
-            try {
-                seleccion = Integer.valueOf(scan.nextLine());
-            } catch (Exception e) {
-                System.out.println("Opcion no valida");
-                seleccion = 0;
+        while(salir) {
+            switch(Conversor.exhibirMenu()){
+
+
+
             }
+
 
             Gson gson = new GsonBuilder()
                     .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)

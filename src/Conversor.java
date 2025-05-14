@@ -9,9 +9,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Conversor {
-    public static int exhibirMenu(){
+    public static int exhibirMenu(Scanner scan){
         int seleccion = -1;
-        Scanner scan = new Scanner(System.in);
         while (!(seleccion >= 0 && seleccion <= 8)) {
             System.out.println("""
                     *****************************************************
@@ -50,7 +49,7 @@ public class Conversor {
 
         String direccion = "https://v6.exchangerate-api.com/v6/45e0bffdd499c250b1c92642/latest/ARS" + monedaElegida;
 
-        Monedas valoresActuales = new Monedas(0,0,0,0,0);
+        Monedas valoresActuales = new Monedas(1,1,1,1,1);
 
         try {
 

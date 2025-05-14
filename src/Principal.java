@@ -13,8 +13,10 @@ public class Principal {
     public static void main(String[] args) {
 
         boolean salir = false;
-        String monedaReferencia, monedaConversion;
-        Monedas valorActual;
+        String monedaReferencia = "", monedaConversion = "";
+        Monedas valorActual = new Monedas(0,0,0,0,0);
+        Scanner scan = new Scanner(System.in);
+        double cantidad;
 
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
@@ -22,7 +24,7 @@ public class Principal {
                 .create();
 
         while(!salir) {
-            switch(Conversor.exhibirMenu()){
+            switch(Conversor.exhibirMenu(scan)){
 
                 case 0:
                     salir = true;
@@ -62,8 +64,51 @@ public class Principal {
 
             }
             if(!salir){
+                cantidad = -1;
+                boolean devolucionValores = true;
+                while(cantidad < 0) {
+                    System.out.println("Ingrese la cantidad a convertir: ");
+                    try {
+                        cantidad = Double.valueOf(scan.nextLine());
+                        if (cantidad < 0)
+                            System.out.println("Cantidad no valida");
+                    } catch (Exception e) {
+                        System.out.println("No se ha escrito un numero");
+                        cantidad = -1;
+                    }
+                }
+                try{
+                    valorActual = Conversor.obtenerValorActual(monedaReferencia, gson);
+                }catch (Exception e ){
+                    monedaConversion = "";
+                    devolucionValores = false;
+                }
+                double resultadoConvertido = 0;
+                switch (monedaConversion){
+                    case "USD":
+                        resultadoConvertido = cantidad * valorActual.usd();
+                        break;
+                    case "ARS":
+                        resultadoConvertido = cantidad * valorActual.ars();
+                        break;
+                    case "BRL":
+                        resultadoConvertido = cantidad * valorActual.brl();
+                        break;
+                    case "COP":
+                        resultadoConvertido = cantidad * valorActual.cop();
+                        break;
+                    case "BOB":
+                        resultadoConvertido = cantidad * valorActual.bob();
+                        break;
+                    default:
+                        System.out.println("No se ha podido encontrar los valores actuales de las monedas");
+                }
+                if(devolucionValores)
+                    System.out.println("El resultado de la conversion es que " + cantidad + " " + monedaReferencia +
+                        " es igual a: " + resultadoConvertido + " " + monedaConversion);
 
             }
+
 
 
 

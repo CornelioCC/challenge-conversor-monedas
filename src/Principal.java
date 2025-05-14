@@ -6,37 +6,49 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Principal {
     public static void main(String[] args) {
-        Conversor.exhibirMenu();
+
+        int seleccion = 0;
         Scanner scan = new Scanner(System.in);
-        int seleccion = scan.nextInt();
+
+        while(seleccion != 9) {
+            Conversor.exhibirMenu();
+            try {
+                seleccion = Integer.valueOf(scan.nextLine());
+            } catch (Exception e) {
+                System.out.println("Opcion no valida");
+                seleccion = 0;
+            }
+
+            Gson gson = new GsonBuilder()
+                    .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                    .setPrettyPrinting()
+                    .create();
+            String moneda = "";
+            String direccion = "https://v6.exchangerate-api.com/v6/45e0bffdd499c250b1c92642/latest/ARS" + moneda;
+
+            try {
+
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder().uri(URI.create(direccion)).build();
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+                String jsonEntero = response.body();
+                Map<String, String> stringMapCompleto = gson.fromJson(jsonEntero, Map.class);
+                String jsonMonedas = String.valueOf(stringMapCompleto.values().toArray()[stringMapCompleto.size() - 1]);
+                Monedas valoresActuales = gson.fromJson(jsonMonedas, Monedas.class);
+                System.out.println(valoresActuales);
 
 
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                .setPrettyPrinting()
-                .create();
-        String moneda = "";
-        String direccion = "https://v6.exchangerate-api.com/v6/45e0bffdd499c250b1c92642/latest/USD" + moneda;
-
-        try{
-
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(direccion)).build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            String json = response.body();
-            System.out.println(json);
-            System.out.println(json.replace("\"", ""));
-
-
-        }catch(IllegalArgumentException e){
-            System.out.println("Error en la URI, verifique la dirección.");
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error en la URI, verifique la dirección.");
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

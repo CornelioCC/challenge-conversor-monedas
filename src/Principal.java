@@ -1,12 +1,6 @@
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Principal {
@@ -64,10 +58,11 @@ public class Principal {
 
             }
             if(!salir){
+                System.out.println("Se ha seleccionado cambiar " + monedaReferencia + " a " + monedaConversion);
                 cantidad = -1;
                 boolean devolucionValores = true;
                 while(cantidad < 0) {
-                    System.out.println("Ingrese la cantidad a convertir: ");
+                    System.out.println("Ingrese la cantidad de " + monedaReferencia +" a convertir: ");
                     try {
                         cantidad = Double.valueOf(scan.nextLine());
                         if (cantidad < 0)
@@ -105,15 +100,9 @@ public class Principal {
                 }
                 if(devolucionValores)
                     System.out.println("El resultado de la conversion es que " + cantidad + " " + monedaReferencia +
-                        " es igual a: " + resultadoConvertido + " " + monedaConversion);
+                        " es igual a: " + String.format("%.2f", resultadoConvertido) + " " + monedaConversion);
 
             }
-
-
-
-
-
-
         }
     }
 

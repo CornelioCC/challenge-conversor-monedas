@@ -35,11 +35,11 @@ public class Conversor {
             try {
                 seleccion = Integer.valueOf(scan.nextLine());
                 if (seleccion > 8 || seleccion < 0) {
-                    System.out.println("Opcion no valida");
+                    System.out.println("Opcion no disponible");
                     seleccion = -1;
                 }
             } catch (Exception e) {
-                System.out.println("Opcion no valida");
+                System.out.println("Opcion no valida, ingrese numero entero");
                 seleccion = -1;
             }
         }
@@ -47,7 +47,7 @@ public class Conversor {
     }
     public static Monedas obtenerValorActual(String monedaElegida, Gson traductorJson){
 
-        String direccion = "https://v6.exchangerate-api.com/v6/45e0bffdd499c250b1c92642/latest/ARS" + monedaElegida;
+        String direccion = "https://v6.exchangerate-api.com/v6/d4af43e5a6385bf8481895c6/latest/" + monedaElegida;
 
         Monedas valoresActuales = new Monedas(1,1,1,1,1);
 
